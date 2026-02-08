@@ -99,6 +99,10 @@ Create a new job posting.
 #### DELETE /jobs/:id
 Cancel an open job. Only works if status is 'open' (no human assigned yet).
 
+---
+
+### Polling & State
+
 #### GET /inspect
 **Recommended polling endpoint.** Returns your complete state: all jobs, applicants, and proofs in one call.
 
