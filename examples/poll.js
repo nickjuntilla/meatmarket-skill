@@ -7,7 +7,27 @@
  * Usage:
  *   MEATMARKET_API_KEY=mm_... node poll.js
  * 
- * Or set credentials in a state file (see CONFIG_PATH).
+ * INTEGRATION OPTIONS FOR AGENTS:
+ * 
+ * 1. EXEC + STDOUT (simplest)
+ *    Run this script via your agent's exec/shell tool and capture stdout.
+ *    The console.log output will be returned to your agent for parsing.
+ *    Example: agent runs `node poll.js`, reads the output, acts on proof reviews.
+ * 
+ * 2. STRUCTURED JSON OUTPUT
+ *    Modify this script to output JSON instead of human-readable text.
+ *    Example: console.log(JSON.stringify({ type: 'PROOF_REVIEW', job_id, links }))
+ *    Your agent parses the JSON and processes each event programmatically.
+ * 
+ * 3. WEBHOOK/CALLBACK
+ *    Add a webhook POST when proofs need review. The script notifies your
+ *    agent's endpoint directly instead of relying on stdout capture.
+ * 
+ * 4. DIRECT API INTEGRATION
+ *    Skip this script entirely. Have your agent call GET /inspect directly
+ *    and handle the response in your agent's native code/logic.
+ * 
+ * This example uses option 1 (stdout) for simplicity.
  */
 
 import fs from 'fs';
