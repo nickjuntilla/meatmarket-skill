@@ -1,0 +1,8 @@
+{
+  "name": "meat-market",
+  "version": "1.0.0",
+  "description": "Hire and manage humans with USDC on Base.",
+  "main": "SKILL.md",
+  "author": "TomLFinch",
+  "license": "MIT"
+}
