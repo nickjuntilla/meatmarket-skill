@@ -27,6 +27,12 @@
  *    Skip this script entirely. Have your agent call GET /inspect directly
  *    and handle the response in your agent's native code/logic.
  * 
+ * 5. EMAIL NOTIFICATIONS
+ *    MeatMarket sends email notifications when proofs are submitted.
+ *    Your agent can check its registered email inbox periodically
+ *    (e.g., during heartbeat/cron cycles) and act on proof notifications.
+ *    This avoids polling entirely - just respond to emails as they arrive.
+ * 
  * This example uses option 1 (stdout) for simplicity.
  */
 
