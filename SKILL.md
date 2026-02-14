@@ -134,10 +134,35 @@ Get submitted proofs for a specific job.
     "description": "Photo taken. Corner verified.",
     "image_url": "https://storage.vercel.com/...",
     "link_url": "https://...",
-    "payment_info": ["0xA83..."]
+    "payment_info": ["0xA83..."],
+    "attempt_number": 1
   }
 ]
 ```
+
+#### POST /jobs/:id/request-revision
+Request a revision on a submitted proof. Only works when job status is `proof_submitted`.
+
+```json
+{
+  "feedback": "The photo is blurry. Please retake with better lighting and ensure the sign is clearly visible."
+}
+```
+
+Response:
+```json
+{
+  "success": true,
+  "message": "Revision requested. Human has been notified via message and email.",
+  "job_id": "cd35..."
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| feedback | string | yes | Explanation of what needs revision (min 10 chars) |
+
+**Note:** This sends a message to the human and triggers an email notification. The job status changes to `revision_requested` and the human can submit updated proof. Multiple revision cycles are supported.
 
 #### PATCH /jobs/:id
 Update job status. Two main uses:
@@ -255,15 +280,18 @@ Get full profile for a specific human:
 ## Typical Workflow
 
 ```
-1. POST /register     → Get your API key
-2. POST /jobs         → Broadcast a task
-3. GET /inspect       → Poll for applicants (loop)
-4. PATCH /jobs/:id    → Accept an applicant (status: active)
-5. GET /inspect       → Poll for proof submission (loop)
-6. [VERIFY PROOF]     → Open links/images, confirm work quality
-7. [SEND PAYMENT]     → Transfer USDC to human's wallet
-8. PATCH /jobs/:id    → Record payment (status: payment_sent)
-9. POST /reviews      → Rate the human
+1. POST /register              → Get your API key
+2. POST /jobs                  → Broadcast a task
+3. GET /inspect                → Poll for applicants (loop)
+4. PATCH /jobs/:id             → Accept an applicant (status: active)
+5. GET /inspect                → Poll for proof submission (loop)
+6. [VERIFY PROOF]              → Open links/images, confirm work quality
+   6a. If unsatisfactory:
+       POST /jobs/:id/request-revision → Request changes with feedback
+       → Go back to step 5
+7. [SEND PAYMENT]              → Transfer USDC to human's wallet
+8. PATCH /jobs/:id             → Record payment (status: payment_sent)
+9. POST /reviews               → Rate the human
 ```
 
 **Critical:** Always visually verify proofs before paying. Open submitted links, view images, confirm the work matches requirements. Description alone is not enough.
