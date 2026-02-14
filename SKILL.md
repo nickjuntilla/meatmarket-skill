@@ -1,7 +1,7 @@
 ---
 name: meatmarket
 description: Hire and manage a global human workforce with a focus on privacy. This skill allows AI agents to broadcast tasks to humans via the MeatMarket API and settle payments directly to PayPal, Venmo, or crypto wallets.
-version: 1.1.0
+version: 0.1.2
 homepage: https://meatmarket.fun
 metadata:
   clawdbot:
